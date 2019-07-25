@@ -1,6 +1,7 @@
 package com.gmail.justinxvopro.schedulerbot.commands;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -75,6 +76,10 @@ public class DelHoursCommand implements Command {
 
 	    channel.sendMessage(this.removeTimes(member, old)).queue();
 	    return;
+	} else if (argument.equalsIgnoreCase("all")) {
+	    channel.sendMessage(this.removeTimes(member, new ArrayList<>(ScheduleManager.get(member.getGuild()).getTimesFor(member))))
+		    .queue();
+	    return;
 	}
 
 	try {
@@ -83,7 +88,8 @@ public class DelHoursCommand implements Command {
 			    ScheduleManager.get(member.getGuild()).getTimesFor(member).get(Util.toInt(argument) - 1))))
 		    .queue();
 	} catch (Exception ex) {
-	    channel.sendMessage(Util.formatted("Fail " + member.getEffectiveName(), "No Such entry at index " + argument)).queue();
+	    channel.sendMessage(
+		    Util.formatted("Fail " + member.getEffectiveName(), "No Such entry at index " + argument)).queue();
 	    return;
 	}
     }
