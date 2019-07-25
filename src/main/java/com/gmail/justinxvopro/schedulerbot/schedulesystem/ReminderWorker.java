@@ -49,7 +49,8 @@ public class ReminderWorker {
 			.filter(st -> st.getStart_time() - System.currentTimeMillis() <= THRESHOLD + 5000
 				&& st.getEnd_time() >= System.currentTimeMillis())
 			.forEach(st -> {
-			    if (ClockManager.getClockManager(guild).getClockedInTime(mem) != st) {
+			    if (ClockManager.getClockManager(guild).getClockedInTime(mem) == null || !ClockManager.getClockManager(guild).getClockedInTime(mem).equals(st)) {
+				LOGGER.info("Reminding CLOCK IN " + mem.getEffectiveName() + " " + st);
 				mem.getUser().openPrivateChannel().queue(pc -> {
 				    pc.sendMessage(Util.formatted("Clock In Reminder for " + guild.getName(),
 					    "Remember to clock in!\n\n" + Util.formatTime(st, zone))).queue();
@@ -62,6 +63,7 @@ public class ReminderWorker {
 			DateTimeZone zone = Util.getTimeZoneOrDefault(BotCore.BOT_JDA.getUserById(sr.getMember()));
 			if (!sr.isReminded()) {
 			    sr.setReminded(true);
+			    LOGGER.info("Reminding REMINDER " + sr.getMember() + " " + sr.getDate());
 			    BotCore.BOT_JDA.getUserById(sr.getMember()).openPrivateChannel().queue(pc -> {
 				pc.sendMessage(Util.formatted("REMINDER",
 					Util.fullDateYearFormat(sr.getDate(), zone.toTimeZone()) + "\n\n"
