@@ -20,6 +20,7 @@ public class CommandListener extends ListenerAdapter implements Loggable {
 	    new CalendarCommand(),
 	    new ClockInCommand(),
 	    new ClockOutCommand(),
+	    new ClockedInCommand(),
 	    new RemindCommand(),
 	    new RemindsCommand()
     };

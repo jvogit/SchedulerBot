@@ -12,7 +12,7 @@ public class ClockedInCommand implements Command {
 	ClockManager manager = ClockManager.getClockManager(e.getGuild());
 	StringBuilder builder = new StringBuilder();
 	manager.getClockInTimes().forEach(st -> {
-	    builder.append(e.getGuild().getMemberById(st.getMember()) + " ")
+	    builder.append(e.getGuild().getMemberById(st.getMember()).getEffectiveName() + " ")
 		    .append(Util.formatTime(st, Util.getTimeZoneOrDefault(e.getMember()))).append("\n");
 	});
 
